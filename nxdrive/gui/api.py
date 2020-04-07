@@ -335,6 +335,21 @@ class QMLDriveApi(QObject):
         self.application.hide_systray()
         self._manager.open_help()
 
+    @pyqtSlot(str, str, str, str, str)
+    def open_document(
+        self,
+        uid: str,
+        type: str,
+        remote_ref: str,
+        remote_name: str,
+        local_parent_path: str,
+    ) -> None:
+        self.application.hide_systray()
+        if type == "error" and remote_ref and remote_name:
+            self.open_remote(uid, remote_ref, remote_name)
+        else:
+            self.open_local(uid, local_parent_path)
+
     @pyqtSlot(str)
     def show_conflicts_resolution(self, uid: str) -> None:
         self.application.hide_systray()
